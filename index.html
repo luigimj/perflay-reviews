@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vite App</title>
+    <link rel="stylesheet" href="https://test2.perflay.com/assets/theme1/fonts/fontawesome-free/css/all.min.css">
+    <link rel="stylesheet" href="https://test2.perflay.com/assets/theme1/css/main-style.css">
+    <link rel="stylesheet" href="https://test2.perflay.com/assets/theme1/css/responsive.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/src/css/style.css" />
+  </head>
+  <body>
+    <section class="padding-top">
+      <div class="container">
+        <div class="tw-flex tw-flex-col tw-items-center tw-gap-y-10 md:tw-flex-row md:tw-justify-between">
+          <h2 class="tw-text-sm md:tw-text-base tw-font-semibold tw-leading-none tw-text-[#111]">
+            Comentarios de los clientes
+          </h2>
+          <button class="tw-px-3 tw-py-1 tw-bg-[rgba(233,233,237,1)] tw-rounded-md tw-border tw-border-[rgba(219,219,219,1)] tw-text-sm tw-leading-normal tw-text-[#111] hover:tw-bg-[#f8f8f8]" id="add-review">
+            Escribe una reseña
+          </button>
+        </div>
+
+        <div class="reviews-section"></div>
+
+        <!-- <div class="tw-mt-5 tw-flex tw-flex-col tw-gap-y-5 sm:tw-flex-row sm:tw-items-center sm:tw-justify-center sm:tw-gap-x-8 md:tw-justify-start" id="reviews-summary">
+        </div>
+
+        <div class="tw-mt-10">
+          <ul class="tw-grid tw-text-sm tw-text-[#333] tw-leading-snug" id="reviews-list">
+          </ul>
+        </div> -->
+
+        <!-- <div id="reviews-pagination"></div> -->
+      </div>
+    </section>
+
+    <!-- Main modal -->
+    <div id="static-modal" tabindex="-1" aria-hidden="true"
+      class="tw-hidden tw-overflow-y-auto tw-overflow-x-hidden tw-fixed tw-top-0 tw-right-0 tw-left-0 tw-z-50 tw-justify-center tw-items-center tw-w-full tw-md:inset-0 tw-h-[calc(100%-1rem)] tw-max-h-full">
+      <div class="tw-relative tw-p-4 tw-w-full tw-max-w-4xl tw-max-h-full tw-mx-auto">
+        <!-- Modal content -->
+        <div class="tw-relative tw-bg-black tw-shadow">
+          <!-- Modal header -->
+          <div class="tw-flex tw-items-center tw-justify-between tw-p-4 tw-pb-0 tw-md:p-5 tw-md:pb-0 tw-rounded-t">
+            <button type="button"
+              class="tw-text-gray-400 tw-bg-transparent hover:tw-bg-gray-200 hover:tw-text-gray-900 tw-rounded-lg tw-text-sm tw-w-8 tw-h-8 tw-ms-auto tw-inline-flex tw-justify-center tw-items-center"
+              data-modal-hide="static-modal">
+              <svg class="tw-w-3 tw-h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
+              </svg>
+              <span class="tw-sr-only">Close modal</span>
+            </button>
+          </div>
+          <!-- Modal body -->
+          <div class="tw-p-4 tw-pb-12 tw-md:p-5 tw-space-y-4">
+            <img class="tw-max-w-[90%] tw-max-h-[80vh] tw-object-contain tw-mx-auto" id="expanded-image">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Main modal -->
+    <div id="add-review-modal" tabindex="-1" aria-hidden="true"
+      class="tw-hidden tw-overflow-y-auto tw-overflow-x-hidden tw-fixed tw-top-0 tw-right-0 tw-left-0 tw-z-50 tw-justify-center tw-items-center tw-w-full tw-md:inset-0 tw-h-[calc(100%-1rem)] tw-max-h-full">
+      <div class="tw-relative tw-p-4 tw-w-full tw-max-w-xl tw-max-h-full tw-mx-auto">
+        <!-- Modal content -->
+        <div class="tw-relative tw-bg-white tw-shadow">
+          <!-- Modal header -->
+          <div class="tw-flex tw-items-center tw-justify-between tw-p-4 tw-pb-0 tw-md:p-5 tw-md:pb-0 tw-rounded-t">
+            <button type="button"
+              class="tw-text-gray-400 tw-bg-transparent hover:tw-bg-gray-200 hover:tw-text-gray-900 tw-rounded-lg tw-text-sm tw-w-8 tw-h-8 tw-ms-auto tw-inline-flex tw-justify-center tw-items-center"
+              data-modal-hide="static-modal">
+              <svg class="tw-w-3 tw-h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
+              </svg>
+              <span class="tw-sr-only">Close modal</span>
+            </button>
+          </div>
+          <!-- Modal body -->
+          <div class="tw-p-4 tw-pb-12 tw-md:p-5 tw-space-y-4">
+            
+            <form class="tw-p-4 tw-md:p-5">
+              <div class="tw-grid tw-gap-8 tw-mb-8 tw-grid-cols-2" style="--border-color: #848484;">
+                <div class="tw-col-span-2 tw-text-center">
+                  <label for="name" class="tw-block tw-mb-2 tw-text-sm tw-leading-snug tw-text-[#333]">
+                    Danos tu calificación
+                  </label>
+                  <div class="tw-text-3xl" id="star-rating">
+                    <i class="fas fa-star tw-text-[#ddd] tw-cursor-pointer" data-value="1"></i>
+                    <i class="fas fa-star tw-text-[#ddd] tw-cursor-pointer" data-value="2"></i>
+                    <i class="fas fa-star tw-text-[#ddd] tw-cursor-pointer" data-value="3"></i>
+                    <i class="fas fa-star tw-text-[#ddd] tw-cursor-pointer" data-value="4"></i>
+                    <i class="fas fa-star tw-text-[#ddd] tw-cursor-pointer" data-value="5"></i>
+                  </div>
+                </div>
+                <div class="tw-col-span-2">
+                  <label for="name" class="tw-block tw-mb-2 tw-text-sm tw-leading-snug tw-text-[#333]">
+                    Ingresa tu nombre
+                  </label>
+                  <input type="text" name="name" id="name"
+                    class="tw-bg-gray-50 tw-border tw-border-gray-300 tw-text-[#333] tw-text-sm tw-block tw-w-full !tw-p-[7px]"
+                    required="">
+                </div>
+                <div class="tw-col-span-2">
+                  <label for="description" class="tw-block tw-mb-2 tw-text-sm tw-leading-snug tw-text-[#333]">
+                    Déjanos tu comentario
+                  </label>
+                  <textarea id="description" rows="4"
+                    class="tw-block !tw-p-[7px] tw-w-full tw-text-sm tw-text-[#333] tw-bg-gray-50 tw-border tw-border-[#848484]">
+                  </textarea>
+                </div>
+                <div class="tw-col-span-2 tw-text-center">
+                  <input class="!tw-hidden" type="file" id="add-photo-input" accept="image/png, image/jpg, image/jpeg" multiple>
+                  <label id="add-photo-label" for="add-photo-input" class="tw-text-[#333] tw-inline-flex tw-items-center hover:tw-bg-[#f6f6f6] focus:tw-ring-4 tw-rounded-[6px] tw-text-sm tw-px-[15px] tw-py-2 tw-text-center tw-border tw-border-[#838383] tw-gap-2 tw-cursor-pointer">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#262626" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path><path d="M15 8h.01"></path><path d="M12.5 21h-6.5a3 3 0 0 1 -3 -3v-12a3 3 0 0 1 3 -3h12a3 3 0 0 1 3 3v6.5"></path><path d="M3 16l5 -5c.928 -.893 2.072 -.893 3 0l4 4"></path><path d="M14 14l1 -1c.67 -.644 1.45 -.824 2.182 -.54"></path><path d="M16 19h6"></path><path d="M19 16v6"></path>
+                      </svg>
+                      Agregar fotos <span id="photo-count"><span>0</span>/5</span>
+                    </label>
+                </div>
+
+                <div class="tw-col-span-2 tw-flex tw-gap-2 tw-flex-wrap" id="image-preview-container"></div>
+
+              </div>
+              <button type="submit"
+                class="tw-w-full tw-text-[rgba(235,235,235,1)] tw-inline-flex tw-items-center tw-justify-center tw-bg-[#181818] focus:tw-ring-4 focus:tw-outline-none tw-text-sm tw-px-5 tw-py-2.5 tw-text-center">
+                Enviar reseña
+              </button>
+            </form>
+
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="tw-hidden tw-bg-gray-900/50 tw-fixed tw-inset-0 tw-z-40" id="modal-backdrop"></div>
+    
+    <script type="module" src="/src/js/main.js"></script>
+  </body>
+</html>
