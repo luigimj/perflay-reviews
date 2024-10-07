@@ -5,11 +5,12 @@
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Vite App</title>
-    <link rel="stylesheet" href="https://test2.perflay.com/assets/theme1/fonts/fontawesome-free/css/all.min.css">
     <link rel="stylesheet" href="https://test2.perflay.com/assets/theme1/css/main-style.css">
     <link rel="stylesheet" href="https://test2.perflay.com/assets/theme1/css/responsive.css">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
     <link rel="stylesheet" href="/src/css/style.css" />
+    
+    <script src="https://kit.fontawesome.com/ec7a5e6c46.js" crossorigin="anonymous"></script>
   </head>
   <body>
     <section class="padding-top">
@@ -18,7 +19,8 @@
           <h2 class="tw-text-sm md:tw-text-base tw-font-semibold tw-leading-none tw-text-[#111]">
             Comentarios de los clientes
           </h2>
-          <button class="tw-px-3 tw-py-1 tw-bg-[rgba(233,233,237,1)] tw-rounded-md tw-border tw-border-[rgba(219,219,219,1)] tw-text-sm tw-leading-normal tw-text-[#111] hover:tw-bg-[#f8f8f8]" id="add-review">
+          <button class="tw-px-3 tw-py-1 tw-bg-[rgba(233,233,237,1)] tw-rounded-md tw-border tw-border-[rgba(219,219,219,1)] tw-text-sm tw-leading-normal tw-text-[#111] hover:tw-bg-[#f8f8f8]" 
+            id="add-review">
             Escribe una reseña
           </button>
         </div>
@@ -73,7 +75,7 @@
           <div class="tw-flex tw-items-center tw-justify-between tw-p-4 tw-pb-0 tw-md:p-5 tw-md:pb-0 tw-rounded-t">
             <button type="button"
               class="tw-text-gray-400 tw-bg-transparent hover:tw-bg-gray-200 hover:tw-text-gray-900 tw-rounded-lg tw-text-sm tw-w-8 tw-h-8 tw-ms-auto tw-inline-flex tw-justify-center tw-items-center"
-              data-modal-hide="static-modal">
+              data-modal-hide="add-review-modal">
               <svg class="tw-w-3 tw-h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
                 <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                   d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
@@ -84,7 +86,7 @@
           <!-- Modal body -->
           <div class="tw-p-4 tw-pb-12 tw-md:p-5 tw-space-y-4">
             
-            <form class="tw-p-4 tw-md:p-5">
+            <form class="tw-p-4 tw-md:p-5" id="add-review-form">
               <div class="tw-grid tw-gap-8 tw-mb-8 tw-grid-cols-2" style="--border-color: #848484;">
                 <div class="tw-col-span-2 tw-text-center">
                   <label for="name" class="tw-block tw-mb-2 tw-text-sm tw-leading-snug tw-text-[#333]">
@@ -103,7 +105,7 @@
                     Ingresa tu nombre
                   </label>
                   <input type="text" name="name" id="name"
-                    class="tw-bg-gray-50 tw-border tw-border-gray-300 tw-text-[#333] tw-text-sm tw-block tw-w-full !tw-p-[7px]"
+                    class="!tw-bg-gray-50 tw-border tw-border-gray-300 tw-text-[#333] tw-text-sm tw-block tw-w-full !tw-p-[7px]"
                     required="">
                 </div>
                 <div class="tw-col-span-2">
@@ -128,10 +130,23 @@
 
               </div>
               <button type="submit"
-                class="tw-w-full tw-text-[rgba(235,235,235,1)] tw-inline-flex tw-items-center tw-justify-center tw-bg-[#181818] focus:tw-ring-4 focus:tw-outline-none tw-text-sm tw-px-5 tw-py-2.5 tw-text-center">
+                class="tw-w-full tw-text-[rgba(235,235,235,1)] tw-inline-flex tw-items-center tw-justify-center tw-bg-[#181818] focus:tw-ring-4 focus:tw-outline-none tw-text-sm tw-px-5 tw-py-2.5 tw-text-center tw-rounded-md">
                 Enviar reseña
               </button>
             </form>
+
+            <div class="tw-hidden tw-flex-col tw-items-center tw-justify-center tw-gap-y-4"
+              id="add-review-thank-you-message">
+              <div class="tw-text-5xl tw-leading-none">🎊</div>
+              <div class="tw-flex tw-flex-col tw-text-center">
+                <span class="tw-font-extrabold tw-text-2xl">¡Gracias!</span>
+                <span class="tw-text-lg">Tu comentario fue enviado</span>
+              </div>
+              <button class="tw-text-[rgba(235,235,235,1)] tw-inline-flex tw-rounded-md tw-items-center tw-justify-center tw-bg-[#181818] focus:tw-ring-4 focus:tw-outline-none tw-text-sm tw-px-5 tw-py-2.5 tw-text-center"
+                type="button" data-modal-hide="add-review-modal">
+                Aceptar
+              </button>
+            </div>
 
           </div>
         </div>

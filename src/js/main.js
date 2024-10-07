@@ -174,6 +174,36 @@ modal.addEventListener('click', (event) => {
 const openReviewModal = (event) => {
   const modal = document.getElementById('add-review-modal');
   const modalBackdrop = document.getElementById('modal-backdrop');
+  const formAddReview = document.getElementById('add-review-form');
+  const message = document.getElementById('add-review-thank-you-message');
+  
+  const stars = document.querySelectorAll('#star-rating i');
+  const photoCountLabel = document.getElementById('add-photo-label');
+  const photoCountSpan = document.querySelector('#photo-count span');
+  const imagesContainer = document.getElementById('image-preview-container');
+
+  stars.forEach(star => {
+    if (star.classList.contains('tw-text-yellow-400')) {
+      star.classList.remove('tw-text-yellow-400');
+      star.classList.add('tw-text-[#ddd]');
+    }
+  });
+
+  // document.getElementById('add-photo-input').value = '';
+  photoCountLabel.classList.remove('tw-opacity-50', 'tw-cursor-not-allowed');
+  photoCountSpan.innerHTML = '0';
+  imagesContainer.innerHTML = '';
+
+  // // Resetear formulario
+  formAddReview.reset();
+
+  // Remover mensaje de agradecimiento 
+  message.classList.remove('tw-flex');
+  message.classList.add('tw-hidden');
+
+  // // Mostrar formulario
+  formAddReview.classList.remove('tw-hidden');
+  // formAddReview.classList.add('tw-flex');
 
   // Mostrar el modal
   modal.classList.remove('tw-hidden');
@@ -190,8 +220,10 @@ const closeReviewModal = () => {
 }
 
 // Event listener para cerrar el modal al hacer clic en la "x"
-const closeReviewModalButton = document.querySelector('[data-modal-hide="add-review-modal"]');
-closeModalButton.addEventListener('click', closeModal);
+const closeReviewModalButton = document.querySelectorAll('[data-modal-hide="add-review-modal"]');
+closeReviewModalButton.forEach(closeButton => {
+  closeButton.addEventListener('click', closeReviewModal);
+});
 
 // Cerrar el modal al hacer clic fuera de la imagen
 const ReviewModal = document.getElementById('add-review-modal');
@@ -215,7 +247,7 @@ class ProductReviews {
 
   init() {
     this.setupIntersectionObserver();
-    this.setupEventListeners();
+    // this.setupEventListeners();
     this.loadReviewsSection();
   }
 
@@ -233,10 +265,10 @@ class ProductReviews {
   }
 
   setupEventListeners() {
-    const addReviewButton = document.getElementById('add-review');
-    if (addReviewButton) {
-      addReviewButton.addEventListener('click', () => this.openReviewForm());
-    }
+    // const addReviewButton = document.getElementById('add-review');
+    // if (addReviewButton) {
+    //   addReviewButton.addEventListener('click', () => this.openReviewForm());
+    // }
 
     // const loadMoreButton = document.getElementById('load-more-reviews');
     // if (loadMoreButton) {
@@ -489,10 +521,10 @@ class ProductReviews {
     }
   }
 
-  openReviewForm() {
-    // Implementar lógica para abrir el formulario de reseña
-    console.log('Abrir formulario de reseña');
-  }
+  // openReviewForm() {
+  //   // Implementar lógica para abrir el formulario de reseña
+  //   console.log('Abrir formulario de reseña');
+  // }
 }
 
 // Inicialización
@@ -534,9 +566,12 @@ document.addEventListener("DOMContentLoaded", () => {
     imagesContainer.innerHTML = images.map((image, index) => `
       <div class="tw-relative tw-inline-block">
         <img src="${URL.createObjectURL(image)}" class="tw-w-20 tw-h-20 tw-object-cover tw-rounded tw-m-2" />
-        <button type="button" class="remove-image-btn" data-index="${index}" 
-          class="tw-absolute tw-top-0 tw-right-0 tw-bg-red-600 tw-text-white tw-rounded-full tw-px-1">
-          X
+        <button class="remove-image-btn tw-absolute tw-flex tw-items-center tw-justify-center tw-top-0 tw-right-0 tw-w-6 tw-h-6 tw-text-white tw-rounded-full tw-bg-[#181818]" 
+          type="button" data-index="${index}">
+          <svg class="tw-w-2 tw-h-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"></path>
+          </svg>
+          <span class="tw-sr-only">Delete image</span>
         </button>
       </div>
     `).join('');
@@ -550,8 +585,13 @@ document.addEventListener("DOMContentLoaded", () => {
       addPhotoLabel.classList.remove('tw-opacity-50', 'tw-cursor-not-allowed');
     }
 
-    const imageCount = addPhotoLabel.querySelector("span span");
+    const imageCount = document.querySelector('#photo-count span');
     imageCount.textContent = images.length;
+  };
+
+  // Función para reiniciar el input file
+  const resetFileInput = () => {
+    addPhotoInput.value = '';
   };
 
   // Añadir imagen
@@ -561,6 +601,8 @@ document.addEventListener("DOMContentLoaded", () => {
       images.push(...selectedFiles);
       updateImagesPreview();
     }
+
+    resetFileInput(); // Reiniciar el input file después de cada uso
   });
 
   // Remover imagen
@@ -578,12 +620,15 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const name = document.getElementById('name').value;
     const description = document.getElementById('description').value;
-    const rating = document.querySelectorAll('.fa-star.tw-text-[#ffbf15]').length; // Calcular las estrellas seleccionadas
+    const rating = document.querySelectorAll('#star-rating .fa-star.tw-text-yellow-400').length; // Calcular las estrellas seleccionadas
 
     if (rating === 0) {
       alert('Por favor, selecciona una calificación.');
       return;
     }
+
+    submitButton.setAttribute('disabled', '');
+    submitButton.classList.add('tw-opacity-50', 'tw-cursor-not-allowed');
     
     const formData = new FormData();
     formData.append("productId", "1");
@@ -607,7 +652,11 @@ document.addEventListener("DOMContentLoaded", () => {
       });
 
       if (response.ok) {
-        // showThankYouModal(); // Mostrar modal de agradecimiento
+        console.log('send review', response);
+        resetForm();
+        submitButton.removeAttribute('disabled');
+        submitButton.classList.remove('tw-opacity-50', 'tw-cursor-not-allowed');
+        showThankYouMessage(); // Mostrar modal de agradecimiento
       } else {
         console.error('Error enviando la reseña:', response.status);
       }
@@ -616,20 +665,23 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  // Modal de agradecimiento
-  const showThankYouModal = () => {
-    const modal = document.getElementById('static-modal');
-    const expandedImage = document.getElementById('expanded-image');
+  // Nueva función para resetear completamente el formulario
+  const resetForm = () => {
+    form.reset();
+    images = [];
+    updateImagesPreview();
+    resetFileInput();
+    // updateStarRating(0); // Asumiendo que tienes una función para actualizar visualmente las estrellas
+  };
 
-    modal.classList.remove('tw-hidden');
-    expandedImage.src = ""; // Limpiar la imagen
+  // Mensaje de agradecimiento
+  const showThankYouMessage = () => {
+    const message = document.getElementById('add-review-thank-you-message');
+    const form = document.getElementById('add-review-form');
 
-    const closeModalButton = modal.querySelector('[data-modal-hide]');
-    closeModalButton.addEventListener('click', () => {
-      modal.classList.add('tw-hidden');
-      form.reset(); // Reiniciar el formulario
-      images = []; // Limpiar las imágenes
-      updateImagesPreview();
-    });
+    message.classList.remove('tw-hidden');
+    message.classList.add('tw-flex');
+
+    form.classList.add('tw-hidden');
   };
 });
